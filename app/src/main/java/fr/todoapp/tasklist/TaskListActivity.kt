@@ -23,7 +23,6 @@ class TaskListActivity : AppCompatActivity() {
             // call custom popup function when @addTaskButton is clicked
             onCreateDialog(savedInstanceState)
 
-
         }
     }
 
@@ -63,5 +62,5 @@ class TaskListActivity : AppCompatActivity() {
             myPopupBuilder.show()
         }
     }
-    
+
 }
