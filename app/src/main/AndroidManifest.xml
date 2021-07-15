@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyApplication">
-        <activity android:name=".tasklist.TaskListActivity"></activity>
+        <activity android:name=".CustomPopup"></activity>
+        <activity android:name=".tasklist.TaskListActivity" />
         <activity android:name=".familylist.FamilyListActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
