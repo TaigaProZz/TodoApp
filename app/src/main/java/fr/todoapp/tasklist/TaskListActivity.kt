@@ -2,20 +2,40 @@ package fr.todoapp.tasklist
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.view.ViewGroup
+import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
 import android.widget.Button
 import android.widget.EditText
-import android.widget.LinearLayout
 import android.widget.Toast
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import fr.todoapp.R
+import fr.todoapp.Task
+import fr.todoapp.TaskAdapter
+import kotlinx.android.synthetic.main.activity_task_list.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 
 class TaskListActivity : AppCompatActivity() {
+
+    private lateinit var taskAdapter: TaskAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_list)
+
+
+        taskAdapter = TaskAdapter(mutableListOf())
+
+        recycler_view_task.adapter = taskAdapter
+        recycler_view_task.layoutManager =
+            LinearLayoutManager(this)
+
 
         // add button on the task activity list view
         val addTaskButton = findViewById<Button>(R.id.add_task_button).setOnClickListener {
@@ -37,6 +57,7 @@ class TaskListActivity : AppCompatActivity() {
             val inflater = this.layoutInflater
             val view = inflater.inflate(R.layout.activity_custom_popup, null, false)
             val editText = view.findViewById<EditText>(R.id.editText_Popup)
+            val db = Firebase.firestore.collection("tasks")
 
 
             // set the custom layout
@@ -49,18 +70,28 @@ class TaskListActivity : AppCompatActivity() {
             myPopupBuilder.setPositiveButton(
                 R.string.add_task
             ) { dialog, which ->
-                // TODO add to the recycler view
 
                 // collect the text from the EditText
-                val task = editText.text.toString()
-                println(" the task is :$task")
+                val taskName = editText.text.toString()
+                if (taskName.isNotEmpty()) {
 
-                Toast.makeText(this, "Task added", Toast.LENGTH_SHORT).show()
+                    // create and add the task to the recycler view
+                    val task = Task(taskName)
+                    taskAdapter.addTodo(task)
+                    db.add(task)
+                    editText.text.clear()
+
+
+                    Toast.makeText(this, "Task added", Toast.LENGTH_SHORT).show()
+                }
+
             }
 
             // show the popup
             myPopupBuilder.show()
         }
     }
+
+
 
 }

@@ -1,6 +1,6 @@
 package fr.todoapp
 
-class Task {
-    val taskName = String
-    val isChecked = Boolean
-}
+data class Task (
+    val taskName: String,
+    val isChecked: Boolean = false
+    )
