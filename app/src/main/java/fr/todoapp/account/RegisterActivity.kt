@@ -45,7 +45,7 @@ class RegisterActivity : AppCompatActivity() {
                         val user = auth.currentUser
                         val userId = user?.uid
                         if (userId != null) {
-                            db.child("users").setValue(userId)
+                            db.child("users").child(userId).setValue(userId)
                             Log.d("Usersave", "success")
                         }
 
