@@ -17,5 +17,6 @@
     <string name="login">LogIn</string>
     <string name="register">Register</string>
     <string name="log_out">Log Out</string>
+    <string name="title_activity_maps">Map</string>
 
 </resources>

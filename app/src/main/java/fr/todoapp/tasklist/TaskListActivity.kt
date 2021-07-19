@@ -100,7 +100,6 @@ class TaskListActivity : AppCompatActivity() {
                         fbTaskId += 1
                         db.child("users").child(userId).child("tasks").child("id task $fbTaskId")
                             .setValue(task)
-                        db.get().
                     }
 
                     // clear edit text and toast
