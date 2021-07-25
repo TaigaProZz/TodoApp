@@ -16,10 +16,11 @@ import com.google.firebase.ktx.Firebase
 import fr.todoapp.MainActivity
 import fr.todoapp.R
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.coroutines.tasks.await
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
-    private val db = Firebase.database.reference
+    private val db = Firebase.firestore
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,10 +29,11 @@ class RegisterActivity : AppCompatActivity() {
 
         val auth = Firebase.auth
 
-
+        // get email and password from user input
         val getEmail = findViewById<EditText>(R.id.username_register)
         val getPassword = findViewById<EditText>(R.id.password_register)
 
+        // if register button is clicked, create account and add to firestore DB
         val registerBtn = findViewById<Button>(R.id.signIn).setOnClickListener {
 
             val email = getEmail.text.toString()
@@ -44,11 +46,25 @@ class RegisterActivity : AppCompatActivity() {
                         Log.d("Register done", "Register successfully worked")
                         val user = auth.currentUser
                         val userId = user?.uid
-                        if (userId != null) {
-                            db.child("users").child(userId).setValue(userId)
-                            Log.d("Usersave", "success")
-                        }
 
+                        // setting parameters of user to add to firebase later
+                        val userData = hashMapOf(
+                            "email" to email,
+                            "password" to password,
+                            "userId" to userId
+                        )
+                        // if userId exist, add to firebase the user data
+                        if (userId != null) {
+                            db.collection("users")
+                                .document("$userId")
+                                .set(userData)
+                                .addOnSuccessListener {
+                                    Log.d("Success Register", "DocumentSnapshot written with ID")
+                                }
+                                .addOnFailureListener {
+                                    Log.d("Register Failed", "Error")
+                                }
+                        }
 
 
                         updateUI(user)
@@ -61,13 +77,13 @@ class RegisterActivity : AppCompatActivity() {
                     }
                 }
 
-            } catch (e: Exception){
+            } catch (e: Exception) {
                 Toast.makeText(this, "Empty", Toast.LENGTH_SHORT).show()
+            }
         }
     }
-}
 
-private fun updateUI(user: FirebaseUser?) {
+    private fun updateUI(user: FirebaseUser?) {
 
-}
+    }
 }

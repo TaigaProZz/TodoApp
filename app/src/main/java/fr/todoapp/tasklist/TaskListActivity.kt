@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import fr.todoapp.R
 import fr.todoapp.Task
@@ -26,15 +27,16 @@ import kotlinx.android.synthetic.main.activity_task_list.*
 class TaskListActivity : AppCompatActivity() {
 
     private lateinit var taskAdapter: TaskAdapter
-    private val db = Firebase.database.reference
+    private val db = Firebase.firestore
     private lateinit var auth: FirebaseAuth
-    var fbTaskId = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_list)
 
+
+        getTaskFromFirebase()
 
         taskAdapter = TaskAdapter(mutableListOf())
 
@@ -43,15 +45,15 @@ class TaskListActivity : AppCompatActivity() {
         recycler_view_task.layoutManager =
             LinearLayoutManager(this)
 
+
         // add button on the task activity list view
         add_task_button.setOnClickListener {
-
             // call custom popup function when @addTaskButton is clicked
             onCreateDialog(savedInstanceState)
 
-
         }
     }
+
 
     // function to create a custom popup
     private fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -95,11 +97,16 @@ class TaskListActivity : AppCompatActivity() {
                     // add the task to the recycler view
                     taskAdapter.addTodo(task)
 
+                    // task data
+                    val taskData = hashMapOf(
+                        "task" to task
+                    )
+
                     // add the task to firebase
                     if (userId != null) {
-                        fbTaskId += 1
-                        db.child("users").child(userId).child("tasks").child("id task $fbTaskId")
-                            .setValue(task)
+                        db.collection("users").document(userId)
+                            .collection("tasks").document(taskName)
+                            .set(taskData)
                     }
 
                     // clear edit text and toast
@@ -110,5 +117,26 @@ class TaskListActivity : AppCompatActivity() {
             // show the popup
             myPopupBuilder.show()
         }
+    }
+
+    private fun getTaskFromFirebase() {
+
+        val user = auth.currentUser
+        val userId = user?.uid
+
+        val taskList = userId?.let {
+            db.collection("users").document(it)
+                .collection("tasks")
+        }?.get()?.addOnSuccessListener {
+            if (it != null) {
+                Log.d("get data success", "sucess")
+            } else (
+                    Log.d("no doc", "no doc")
+                    )
+        }
+            ?.addOnFailureListener {
+                Log.d("Fail to get", "Fail")
+            }
+
     }
 }

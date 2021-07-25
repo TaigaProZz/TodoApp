@@ -11,8 +11,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.task_adapter.view.*
 
-class TaskAdapter(
-    val tasks: MutableList<Task>) : RecyclerView.Adapter<TaskAdapter.ViewHolder>()
+class TaskAdapter(val tasks: MutableList<Task>) : RecyclerView.Adapter<TaskAdapter.ViewHolder>()
 {
 
     val db = Firebase.database.reference
