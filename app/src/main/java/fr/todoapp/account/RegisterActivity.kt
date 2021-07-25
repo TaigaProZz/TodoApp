@@ -54,7 +54,7 @@ class RegisterActivity : AppCompatActivity() {
                             "userId" to userId
                         )
                         // if userId exist, add to firebase the user data
-                        if (userId != null) {
+
                             db.collection("users")
                                 .document("$userId")
                                 .set(userData)
@@ -63,7 +63,7 @@ class RegisterActivity : AppCompatActivity() {
                                 }
                                 .addOnFailureListener {
                                     Log.d("Register Failed", "Error")
-                                }
+
                         }
 
 

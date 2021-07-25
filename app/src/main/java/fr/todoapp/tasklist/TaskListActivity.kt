@@ -18,6 +18,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObjects
 import com.google.firebase.ktx.Firebase
 import fr.todoapp.R
 import fr.todoapp.Task
@@ -35,8 +36,27 @@ class TaskListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_list)
 
+        val auth = Firebase.auth
 
-        getTaskFromFirebase()
+        val user = auth.currentUser
+        val userId = user?.uid
+
+
+
+        val getTaskList = db.collection("users").document("$userId")
+            .collection("tasks")
+            .get()
+            .addOnSuccessListener {
+                for (document in it) {
+                    val taskList = getTas
+                    Log.d("get data success", "sucess")
+                    println("here task $taskList")
+                }
+
+            }.addOnFailureListener {
+                Log.d("Fail to get", "Fail")
+            }
+
 
         taskAdapter = TaskAdapter(mutableListOf())
 
@@ -119,24 +139,5 @@ class TaskListActivity : AppCompatActivity() {
         }
     }
 
-    private fun getTaskFromFirebase() {
 
-        val user = auth.currentUser
-        val userId = user?.uid
-
-        val taskList = userId?.let {
-            db.collection("users").document(it)
-                .collection("tasks")
-        }?.get()?.addOnSuccessListener {
-            if (it != null) {
-                Log.d("get data success", "sucess")
-            } else (
-                    Log.d("no doc", "no doc")
-                    )
-        }
-            ?.addOnFailureListener {
-                Log.d("Fail to get", "Fail")
-            }
-
-    }
 }
