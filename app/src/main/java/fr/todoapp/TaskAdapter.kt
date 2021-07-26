@@ -25,6 +25,12 @@ class TaskAdapter(val tasks: MutableList<Task>) : RecyclerView.Adapter<TaskAdapt
 
     }
 
+    fun addTodoMap(map: Map<String, Any>) {
+        tasks.add(map)
+        notifyItemInserted(tasks.size - 1)
+
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -54,5 +60,9 @@ class TaskAdapter(val tasks: MutableList<Task>) : RecyclerView.Adapter<TaskAdapt
         return tasks.size
     }
 
+
+}
+
+private fun Any.add(element: Map<String, Any>) {
 
 }

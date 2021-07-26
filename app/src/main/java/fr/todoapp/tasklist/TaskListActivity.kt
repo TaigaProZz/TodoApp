@@ -42,23 +42,21 @@ class TaskListActivity : AppCompatActivity() {
         val userId = user?.uid
 
 
+        taskAdapter = TaskAdapter(mutableListOf())
 
-        val getTaskList = db.collection("users").document("$userId")
+        db.collection("users").document("$userId")
             .collection("tasks")
             .get()
             .addOnSuccessListener {
                 for (document in it) {
-                    val taskList = getTas
-                    Log.d("get data success", "sucess")
-                    println("here task $taskList")
-                }
 
-            }.addOnFailureListener {
+                    Log.d("get data success", "${document.id} => ${document.data}")
+                }
+            }
+            .addOnFailureListener {
                 Log.d("Fail to get", "Fail")
             }
 
-
-        taskAdapter = TaskAdapter(mutableListOf())
 
         // recycler view parameters
         recycler_view_task.adapter = taskAdapter
