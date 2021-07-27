@@ -1,22 +1,19 @@
 package fr.todoapp.account
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.ktx.database
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import fr.todoapp.MainActivity
 import fr.todoapp.R
-import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.coroutines.tasks.await
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
@@ -36,14 +33,14 @@ class RegisterActivity : AppCompatActivity() {
         // if register button is clicked, create account and add to firestore DB
         val registerBtn = findViewById<Button>(R.id.signIn).setOnClickListener {
 
+            // set user input to variable
             val email = getEmail.text.toString()
             val password = getPassword.text.toString()
 
-            println("here the email and password : $email, $password")
+            // try to create the account with email and password
             try {
                 auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        Log.d("Register done", "Register successfully worked")
                         val user = auth.currentUser
                         val userId = user?.uid
 
@@ -53,37 +50,39 @@ class RegisterActivity : AppCompatActivity() {
                             "password" to password,
                             "userId" to userId
                         )
-                        // if userId exist, add to firebase the user data
+                        // add to firebase user's data
+                        db.collection("users")
+                            .document("$userId")
+                            .set(userData)
+                            .addOnSuccessListener {
+                                Log.d("Success Register", "DocumentSnapshot written with ID")
+                            }
+                            .addOnFailureListener {
+                                Log.d("Register Failed", "Error")
 
-                            db.collection("users")
-                                .document("$userId")
-                                .set(userData)
-                                .addOnSuccessListener {
-                                    Log.d("Success Register", "DocumentSnapshot written with ID")
-                                }
-                                .addOnFailureListener {
-                                    Log.d("Register Failed", "Error")
-
-                        }
-
+                            }
 
                         updateUI(user)
 
+                        // if register was successful, goto MainActivity
                         startActivity(Intent(applicationContext, MainActivity::class.java))
-                    } else {
+                    }
+                    // if register failed
+                    else {
                         Log.d("Register failed", "Register failed")
                         Toast.makeText(this, "Auth failed", Toast.LENGTH_SHORT).show()
                         updateUI(null)
                     }
                 }
+            }
 
-            } catch (e: Exception) {
+            // if there is empty field, catch the error
+            catch (e: Exception) {
                 Toast.makeText(this, "Empty", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
     private fun updateUI(user: FirebaseUser?) {
-
     }
 }

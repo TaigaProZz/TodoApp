@@ -2,27 +2,19 @@ package fr.todoapp.tasklist
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObjects
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
-import fr.todoapp.R
-import fr.todoapp.Task
-import fr.todoapp.TaskAdapter
+import fr.todoapp.*
 import kotlinx.android.synthetic.main.activity_task_list.*
 
 class TaskListActivity : AppCompatActivity() {
@@ -36,21 +28,32 @@ class TaskListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_list)
 
+        // initialize firebase val
         val auth = Firebase.auth
-
         val user = auth.currentUser
         val userId = user?.uid
 
 
         taskAdapter = TaskAdapter(mutableListOf())
 
+        // collect task data from firebase
         db.collection("users").document("$userId")
             .collection("tasks")
             .get()
             .addOnSuccessListener {
                 for (document in it) {
 
-                    Log.d("get data success", "${document.id} => ${document.data}")
+                    // convert the firebase data to the Task object
+                    val setDocToTask = document.toObject<Task>()
+
+                    // collect doc id who equals to the task name
+                    val name = document.id
+
+                    // initialize the task object with the task name collected
+                    val task = Task(name)
+
+                    // add the collected task to the list and recycler view
+                    taskAdapter.addTodo(task)
                 }
             }
             .addOnFailureListener {
@@ -80,10 +83,13 @@ class TaskListActivity : AppCompatActivity() {
 
         return activity.let {
 
+            // initialize variables of popup instance
             val myPopupBuilder = AlertDialog.Builder(this@TaskListActivity)
             val inflater = this.layoutInflater
             val view = inflater.inflate(R.layout.activity_custom_popup, null, false)
+
             val editText = view.findViewById<EditText>(R.id.editText_Popup)
+            val checkBox = view.findViewById<CheckBox>(R.id.checkBoxAdapter)
             val auth = Firebase.auth
 
 
@@ -102,7 +108,6 @@ class TaskListActivity : AppCompatActivity() {
 
                 // collect the text from the EditText
                 val taskName = editText.text.toString()
-
 
                 // check if the edit text isnt empty
                 if (taskName.isNotEmpty()) {
@@ -136,6 +141,4 @@ class TaskListActivity : AppCompatActivity() {
             myPopupBuilder.show()
         }
     }
-
-
 }

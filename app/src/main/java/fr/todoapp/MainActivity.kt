@@ -14,19 +14,24 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         auth = FirebaseAuth.getInstance()
 
-        gotoTaskButton.setOnClickListener{
-            startActivity(Intent (applicationContext, TaskListActivity::class.java))
+        // go to task list activity button
+        gotoTaskButton.setOnClickListener {
+            startActivity(Intent(applicationContext, TaskListActivity::class.java))
         }
 
+        // log out button
         logout.setOnClickListener {
+
             Firebase.auth.signOut()
             Toast.makeText(this, "Successfully Log out", Toast.LENGTH_SHORT).show()
+            // and goto login activity
             startActivity(Intent(applicationContext, LoginActivity::class.java))
         }
     }

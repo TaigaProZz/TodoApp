@@ -7,30 +7,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.task_adapter.view.*
 
-class TaskAdapter(val tasks: MutableList<Task>) : RecyclerView.Adapter<TaskAdapter.ViewHolder>()
-{
+class TaskAdapter(val tasks: MutableList<Task>) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
 
     val db = Firebase.database.reference
-    private lateinit var auth : FirebaseAuth
+    private lateinit var auth: FirebaseAuth
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
+    // add the task to th list
     fun addTodo(task: Task) {
         tasks.add(task)
         notifyItemInserted(tasks.size - 1)
 
     }
-
-    fun addTodoMap(map: Map<String, Any>) {
-        tasks.add(map)
-        notifyItemInserted(tasks.size - 1)
-
-    }
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(
@@ -59,10 +51,5 @@ class TaskAdapter(val tasks: MutableList<Task>) : RecyclerView.Adapter<TaskAdapt
     override fun getItemCount(): Int {
         return tasks.size
     }
-
-
-}
-
-private fun Any.add(element: Map<String, Any>) {
 
 }
