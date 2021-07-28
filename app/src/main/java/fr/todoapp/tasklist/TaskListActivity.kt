@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
@@ -16,6 +17,7 @@ import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import fr.todoapp.*
 import kotlinx.android.synthetic.main.activity_task_list.*
+import kotlinx.android.synthetic.main.task_adapter.*
 
 class TaskListActivity : AppCompatActivity() {
 
@@ -27,6 +29,8 @@ class TaskListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_list)
+        val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbarTaskActivity)
+        setSupportActionBar(toolbar)
 
         // initialize firebase val
         val auth = Firebase.auth
@@ -48,6 +52,7 @@ class TaskListActivity : AppCompatActivity() {
 
                     // collect doc id who equals to the task name
                     val name = document.id
+
 
                     // initialize the task object with the task name collected
                     val task = Task(name)
@@ -89,7 +94,6 @@ class TaskListActivity : AppCompatActivity() {
             val view = inflater.inflate(R.layout.activity_custom_popup, null, false)
 
             val editText = view.findViewById<EditText>(R.id.editText_Popup)
-            val checkBox = view.findViewById<CheckBox>(R.id.checkBoxAdapter)
             val auth = Firebase.auth
 
 
@@ -122,7 +126,7 @@ class TaskListActivity : AppCompatActivity() {
 
                     // task data
                     val taskData = hashMapOf(
-                        "task" to task
+                        "task" to task,
                     )
 
                     // add the task to firebase
