@@ -1,16 +1,24 @@
 package fr.todoapp
 
+import android.content.Context
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import fr.todoapp.taskList.TaskListActivity
+import kotlinx.android.synthetic.main.activity_task_list.view.*
+import kotlinx.android.synthetic.main.task_adapter.*
 import kotlinx.android.synthetic.main.task_adapter.view.*
 
-class TaskAdapter(val tasks: MutableList<Task>) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+class TaskAdapter(val tasks: ArrayList<Task>) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
 
     val db = Firebase.database.reference
     private lateinit var auth: FirebaseAuth
@@ -36,14 +44,11 @@ class TaskAdapter(val tasks: MutableList<Task>) : RecyclerView.Adapter<TaskAdapt
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val currentTask = tasks[position]
-        val auth = Firebase.auth
+
 
         viewHolder.itemView.apply {
             taskAdapterText.text = currentTask.taskName
             checkBoxAdapter.isChecked = currentTask.isChecked
-            val user = auth.currentUser
-            val userId = user?.uid
-
 
         }
     }

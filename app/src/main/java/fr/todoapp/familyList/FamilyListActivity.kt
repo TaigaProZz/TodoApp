@@ -1,4 +1,4 @@
-package fr.todoapp.familylist
+package fr.todoapp.familyList
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
