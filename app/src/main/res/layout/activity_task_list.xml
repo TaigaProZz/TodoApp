@@ -29,7 +29,6 @@
         android:id="@+id/toolbarTaskActivity"
         android:layout_width="409dp"
         android:layout_height="wrap_content"
-        android:background="@color/grey"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
