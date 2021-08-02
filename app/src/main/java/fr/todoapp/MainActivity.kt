@@ -36,26 +36,6 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(applicationContext, LoginActivity::class.java))
         }
 
-
-        // switch theme buttons
-
-        // switch from dark to light theme
-        btnSwitchThemeToLight.setOnClickListener {
-
-            when (AppCompatDelegate.MODE_NIGHT_YES) {
-                2 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-            }
-
-        }
-
-        // switch from light to dark theme
-        btnSwitchThemeToDark.setOnClickListener {
-
-            when (AppCompatDelegate.MODE_NIGHT_NO) {
-                1 -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-            }
-        }
-
         settingsBtn.setOnClickListener {
 
             finish()

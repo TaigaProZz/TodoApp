@@ -23,7 +23,9 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import fr.todoapp.*
 import fr.todoapp.recyclerViewAdapters.TaskAdapter
+import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.activity_task_list.*
+import kotlinx.android.synthetic.main.activity_task_list.goBackBtn
 import kotlinx.android.synthetic.main.task_adapter.*
 import kotlinx.android.synthetic.main.task_adapter.view.*
 import java.util.*
@@ -56,11 +58,15 @@ class TaskListActivity : AppCompatActivity() {
         // toolbar parameter
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbarTaskActivity)
         setSupportActionBar(toolbar)
-        supportActionBar?.title = "Todo List"
-
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
 
         // ****************** SET ON CLICK LISTENERS ****************** \\
+
+        // go back
+        goBackBtn.setOnClickListener {
+            startActivity(Intent(applicationContext, MainActivity::class.java))
+        }
 
         // add button on the task activity list view
         add_task_button.setOnClickListener {
@@ -81,6 +87,7 @@ class TaskListActivity : AppCompatActivity() {
             saveDataSharedPreferences()
 
         }
+
     }
 
     override fun onDestroy() {
@@ -206,9 +213,16 @@ class TaskListActivity : AppCompatActivity() {
 
                     // initialize the task object with the task name collected
                     val task = Task(name)
-
-                    // add the collected task to the list and recycler view
-                    taskAdapter.addTodo(task)
+                    
+                    // check if the task already exist
+                    val nameExist = task in myList
+                    if (nameExist){
+                        break
+                    }
+                    else{
+                        // add the collected task to the list and recycler view
+                        taskAdapter.addTodo(task)
+                    }
                 }
             }
             .addOnFailureListener {
