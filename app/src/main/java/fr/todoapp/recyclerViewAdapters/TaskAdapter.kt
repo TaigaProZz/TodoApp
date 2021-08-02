@@ -1,21 +1,14 @@
-package fr.todoapp
+package fr.todoapp.recyclerViewAdapters
 
-import android.content.Context
-import android.content.SharedPreferences
-import android.preference.PreferenceManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
-import fr.todoapp.taskList.TaskListActivity
-import kotlinx.android.synthetic.main.activity_task_list.view.*
-import kotlinx.android.synthetic.main.task_adapter.*
+import fr.todoapp.R
+import fr.todoapp.Task
 import kotlinx.android.synthetic.main.task_adapter.view.*
 
 class TaskAdapter(val tasks: ArrayList<Task>) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {

@@ -1,5 +1,6 @@
 package fr.todoapp.taskList
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
@@ -21,6 +22,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import fr.todoapp.*
+import fr.todoapp.recyclerViewAdapters.TaskAdapter
 import kotlinx.android.synthetic.main.activity_task_list.*
 import kotlinx.android.synthetic.main.task_adapter.*
 import kotlinx.android.synthetic.main.task_adapter.view.*
@@ -54,7 +56,8 @@ class TaskListActivity : AppCompatActivity() {
         // toolbar parameter
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbarTaskActivity)
         setSupportActionBar(toolbar)
-        supportActionBar?.subtitle = R.string.taskListToolbarTitle.toString()
+        supportActionBar?.title = "Todo List"
+
 
 
         // ****************** SET ON CLICK LISTENERS ****************** \\
@@ -88,6 +91,7 @@ class TaskListActivity : AppCompatActivity() {
 
 
     // function to create a custom popup
+    @SuppressLint("ResourceType")
     private fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         val activity = TaskListActivity::class.java
@@ -97,7 +101,7 @@ class TaskListActivity : AppCompatActivity() {
             // initialize variables of popup instance
             val myPopupBuilder = AlertDialog.Builder(this@TaskListActivity)
             val inflater = this.layoutInflater
-            val view = inflater.inflate(R.layout.activity_custom_popup, null, false)
+            val view = inflater.inflate(R.xml.custom_popup, null, false)
             val editText = view.findViewById<EditText>(R.id.editText_Popup)
 
             // set the custom layout
