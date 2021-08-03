@@ -38,5 +38,8 @@
     <string name="light_theme">Light Theme</string>
     <string name="dark_theme">Dark Theme</string>
     <string name="default_system_theme">Default System Theme</string>
+    <string name="back_arrow"> <![CDATA[←]]></string>
+    <string name="delete">Delete</string>
+    <string name="collect_from_firebase">Collect From firebase</string>
 
 </resources>

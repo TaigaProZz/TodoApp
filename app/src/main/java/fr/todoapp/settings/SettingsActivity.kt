@@ -33,6 +33,7 @@ class SettingsActivity : AppCompatActivity() {
         // switch from dark to light theme
         radioButtonLightTheme.setOnClickListener {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
         }
 
         // switch from light to dark theme

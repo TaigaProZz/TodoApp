@@ -4,8 +4,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".taskList.TaskListActivity"
-    >
+    android:background="@color/dark_grey"
+    tools:context=".taskList.TaskListActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarTaskActivity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:background="@color/dark_grey_toolbar"
+        android:elevation="16dp"
+        android:minHeight="?attr/actionBarSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/goBackBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/back_arrow"
+            android:textColor="@color/white"
+            android:textSize="32sp"
+
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_task"
@@ -19,6 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbarTaskActivity"
         app:layout_constraintVertical_bias="0.006" />
 
+
     <Button
         android:id="@+id/add_task_button"
         android:layout_width="wrap_content"
@@ -28,34 +54,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbarTaskActivity"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
-
-        <Button
-            android:id="@+id/goBackBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.appcompat.widget.Toolbar>
-
-
-
 
     <Button
         android:id="@+id/clearTaskList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="168dp"
-        android:text="Delete"
+        android:text="@string/delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/add_task_button"
         app:layout_constraintStart_toStartOf="parent"
@@ -67,11 +72,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="96dp"
         android:layout_marginBottom="16dp"
-        android:text="Collect From firebase"
+        android:text="@string/collect_from_firebase"
         app:layout_constraintBottom_toTopOf="@+id/clearTaskList"
         app:layout_constraintStart_toStartOf="parent" />
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
