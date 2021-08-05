@@ -1,22 +1,25 @@
 package fr.todoapp.taskList
 
+
+
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.content.SharedPreferences
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.ColorStateListDrawable
-import android.graphics.drawable.Drawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -28,6 +31,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import fr.todoapp.*
 import fr.todoapp.recyclerViewAdapters.TaskAdapter
+import fr.todoapp.ui.theme.MyApplicationTheme
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.activity_task_list.*
 import kotlinx.android.synthetic.main.activity_task_list.goBackBtn
@@ -36,7 +40,7 @@ import kotlinx.android.synthetic.main.task_adapter.view.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-class TaskListActivity : AppCompatActivity() {
+class TaskListActivity : ComponentActivity() {
 
     private lateinit var taskAdapter: TaskAdapter
 
@@ -51,6 +55,13 @@ class TaskListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_list)
+   //  setContent {
+   //      MyApplicationTheme {
+   //          Surface(color = MaterialTheme.colors.background){
+   //              Greeting(name = "Android")
+   //          }
+   //      }
+   //  }
 
         // call functions
         // to load shared preferences for tasks
@@ -62,8 +73,8 @@ class TaskListActivity : AppCompatActivity() {
 
         // toolbar parameter
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbarTaskActivity)
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
+       //setSupportActionBar(toolbar)
+       //supportActionBar?.setDisplayShowTitleEnabled(false)
 
 
         // ****************** SET ON CLICK LISTENERS ****************** \\
@@ -94,6 +105,20 @@ class TaskListActivity : AppCompatActivity() {
         }
 
     }
+
+// @Preview(showBackground = true)
+// @Composable
+// fun DefaultPreview() {
+//     MyApplicationTheme {
+//         Greeting("Android")
+//     }
+// }
+
+// @Composable
+// fun Greeting(name: String) {
+//     Text(text = "Hello $name!")
+// }
+
 
     override fun onDestroy() {
         super.onDestroy()
