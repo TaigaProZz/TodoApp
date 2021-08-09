@@ -1,8 +1,31 @@
 package fr.todoapp
 
-data class Task(
-    val taskName: String = "",
-    val isChecked: Boolean = false
-)
+import android.os.Parcel
+import android.os.Parcelable
+import java.io.Serializable
 
+data class Task(val taskName: String = "", val isChecked: Boolean = false) :
+
+    Serializable, Parcelable {
+    constructor(parcel: Parcel) : this() {
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Task> {
+        override fun createFromParcel(parcel: Parcel): Task {
+            return Task(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Task?> {
+            return arrayOfNulls(size)
+        }
+    }
+}
 
