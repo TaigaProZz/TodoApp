@@ -61,8 +61,10 @@ class SettingsActivity : AppCompatActivity() {
 
         // collect data from firebase
          buttonGetDataFb.setOnClickListener {
-             getTaskFromFirebase()
 
+             val intent = Intent(applicationContext, TaskListActivity::class.java)
+             intent.putExtra("getDataFromDatabase",123)
+             startActivity(intent)
 
 
 
@@ -73,55 +75,7 @@ class SettingsActivity : AppCompatActivity() {
 
     }
 
-    //collect task data from firebase
-    private fun getTaskFromFirebase() {
 
-        val db: FirebaseFirestore = Firebase.firestore
-        val userId: String? = Firebase.auth.currentUser?.uid
-        val taskAdapter = TaskAdapter(taskList)
-
-        db.collection("users").document("$userId")
-            .collection("tasks")
-            .get()
-            .addOnSuccessListener {
-                for (document in it) {
-
-                    // convert the firebase data to the Task object
-                    document.toObject<Task>()
-
-                    // collect doc id who equals to the task name
-                    val name = document.id
-
-                    // initialize the task object with the task name collected
-                    val task = Task(name)
-                    //       println("ma task = $task")
-
-                    // check if the task already exist
-                    val nameExist = task in taskList
-                    if (nameExist) {
-                        break
-
-                    } else {
-                        // add the collected task to the list and recycler view
-                        //                     taskAdapter.addTodo(task)
-                        //  println("ma task = $task")
-                        taskList.add(task)
-                    }
-
-                }
-              println("ma liste fun fdun = $taskList")
-              val intent = Intent(applicationContext, TaskListActivity::class.java)
-              intent.putParcelableArrayListExtra("getData", taskList)
-              startActivity(intent)
-
-
-
-            }
-            .addOnFailureListener {
-                Log.d("Fail to get", "Fail")
-            }
-
-    }
 
     override fun onStop() {
         super.onStop()

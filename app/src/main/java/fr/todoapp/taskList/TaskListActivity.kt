@@ -1,7 +1,6 @@
 package fr.todoapp.taskList
 
 
-
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
@@ -24,7 +23,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import fr.todoapp.*
-import fr.todoapp.GeneralFun.saveDataSharedPreferences
+import fr.todoapp.GeneralFun.saveDataSharedPreferencesList
 import fr.todoapp.recyclerViewAdapters.TaskAdapter
 import kotlinx.android.synthetic.main.activity_settings.*
 import kotlinx.android.synthetic.main.activity_task_list.*
@@ -43,15 +42,12 @@ class TaskListActivity : AppCompatActivity() {
     private var auth: FirebaseAuth = Firebase.auth
     private val user = auth.currentUser
     private val userId = user?.uid
-    var myList = ArrayList<Task>()
-    var list = ArrayList<Task>()
+    private var myList = ArrayList<Task>()
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_list)
-
-
 
         // call functions
         // to load shared preferences for tasks
@@ -60,13 +56,11 @@ class TaskListActivity : AppCompatActivity() {
         // to create the recycler view
         createRecyclerView()
 
-        var str = ""
+        val getData = intent.extras?.get("getDataFromDatabase")
+        if (getData == 123){
 
-       val getListFromExtra = intent.extras?.getParcelableArrayList<Task>("getData")
-       println("ma liste de data = $getListFromExtra")
-
-        getListFromExtra?.forEach {
-            println("mes tache $it")
+             getDataFromFirebase()
+            savedInstanceState
         }
 
 
@@ -99,25 +93,14 @@ class TaskListActivity : AppCompatActivity() {
 
     }
 
-// @Preview(showBackground = true)
-// @Composable
-// fun DefaultPreview() {
-//     MyApplicationTheme {
-//         Greeting("Android")
-//     }
-// }
-
-// @Composable
-// fun Greeting(name: String) {
-//     Text(text = "Hello $name!")
-// }
-
 
     override fun onDestroy() {
         super.onDestroy()
         val sharedPreferences: SharedPreferences = getSharedPreferences("data", MODE_PRIVATE)
 
-        saveDataSharedPreferences("fbData", myList, "task", sharedPreferences)
+        saveDataSharedPreferencesList("fbData", myList, "task", sharedPreferences)
+        saveDataSharedPreferencesList("fbData", myList, "task", sharedPreferences)
+
     }
 
 
@@ -202,7 +185,6 @@ class TaskListActivity : AppCompatActivity() {
         val mLayoutManager = LinearLayoutManager(this)
 
         taskAdapter = TaskAdapter(myList)
-        taskAdapter = TaskAdapter(list)
 
 
         // recycler view parameters
@@ -221,7 +203,7 @@ class TaskListActivity : AppCompatActivity() {
                 for (document in it) {
 
                     // convert the firebase data to the Task object
-                    val setDocToTask = document.toObject<Task>()
+                    document.toObject<Task>()
 
                     // collect doc id who equals to the task name
                     val name = document.id
@@ -237,6 +219,7 @@ class TaskListActivity : AppCompatActivity() {
                     else{
                         // add the collected task to the list and recycler view
                         taskAdapter.addTodo(task)
+                        println("task added $task")
                     }
                 }
             }
@@ -244,5 +227,7 @@ class TaskListActivity : AppCompatActivity() {
                 Log.d("Fail to get", "Fail")
             }
     }
+
+
 
 }
