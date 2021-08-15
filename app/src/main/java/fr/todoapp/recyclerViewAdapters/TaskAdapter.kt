@@ -18,6 +18,7 @@ class TaskAdapter(val tasks: ArrayList<Task>) : RecyclerView.Adapter<TaskAdapter
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
+
     // add the task to th list
     fun addTodo(task: Task) {
         tasks.add(task)
@@ -25,7 +26,15 @@ class TaskAdapter(val tasks: ArrayList<Task>) : RecyclerView.Adapter<TaskAdapter
 
     }
 
+
+    override fun getItemViewType(position: Int): Int {
+        return super.getItemViewType(position)
+
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+
+
         return ViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.task_adapter,
@@ -33,10 +42,17 @@ class TaskAdapter(val tasks: ArrayList<Task>) : RecyclerView.Adapter<TaskAdapter
                 false
             )
         )
+
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val currentTask = tasks[position]
+
+
+        viewHolder.itemView.setOnClickListener {
+            println("la position : $position")
+
+        }
 
 
         viewHolder.itemView.apply {
@@ -44,6 +60,7 @@ class TaskAdapter(val tasks: ArrayList<Task>) : RecyclerView.Adapter<TaskAdapter
             checkBoxAdapter.isChecked = currentTask.isChecked
 
         }
+
     }
 
     override fun getItemCount(): Int {
