@@ -6,7 +6,10 @@
         <entry key="..\:/Dev/projet/TodoApp/app/src/main/res/drawable/countour_adapter.xml" value="0.3296296296296296" />
         <entry key="..\:/Dev/projet/TodoApp/app/src/main/res/layout/activity_settings.xml" value="0.21" />
         <entry key="..\:/Dev/projet/TodoApp/app/src/main/res/layout/activity_task_list.xml" value="0.33" />
-        <entry key="..\:/Dev/projet/TodoApp/app/src/main/res/layout/task_adapter.xml" value="0.17831813576494426" />
+        <entry key="..\:/Dev/projet/TodoApp/app/src/main/res/layout/long_press_task.xml" value="0.25" />
+        <entry key="..\:/Dev/projet/TodoApp/app/src/main/res/layout/task_adapter.xml" value="0.33" />
+        <entry key="..\:/Dev/projet/TodoApp/app/src/main/res/menu/long_press_on_task.xml" value="0.25" />
+        <entry key="..\:/Dev/projet/TodoApp/app/src/main/res/xml/long_press_task.xml" value="0.21965579710144928" />
       </map>
     </option>
   </component>

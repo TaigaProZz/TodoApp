@@ -32,9 +32,9 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view_task"
-        android:layout_width="411dp"
-        android:layout_height="543dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonGetDataFb"
+        android:layout_width="439dp"
+        android:layout_height="614dp"
+        app:layout_constraintBottom_toTopOf="@+id/clearTaskList"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
