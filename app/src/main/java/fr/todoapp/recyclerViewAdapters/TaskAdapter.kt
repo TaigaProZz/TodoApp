@@ -1,6 +1,8 @@
 package fr.todoapp.recyclerViewAdapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
@@ -11,12 +13,11 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import fr.todoapp.R
 import fr.todoapp.Task
+import fr.todoapp.databinding.TaskAdapterBinding
 import kotlinx.android.synthetic.main.task_adapter.view.*
 
 class TaskAdapter(val tasks: ArrayList<Task>) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
 
-    val db = Firebase.database.reference
-    private lateinit var auth: FirebaseAuth
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -27,6 +28,14 @@ class TaskAdapter(val tasks: ArrayList<Task>) : RecyclerView.Adapter<TaskAdapter
         notifyItemInserted(tasks.size - 1)
 
     }
+
+    fun removeItem(position: Int) {
+
+        tasks.removeAt(position)
+        notifyItemRemoved(tasks.size - 1)
+    }
+
+
 
 
     override fun getItemViewType(position: Int): Int {
@@ -60,23 +69,34 @@ class TaskAdapter(val tasks: ArrayList<Task>) : RecyclerView.Adapter<TaskAdapter
         viewHolder.itemView.setOnLongClickListener {
 
             showPopup(it)
+            viewHolder.layoutPosition
             return@setOnLongClickListener true
         }
+
+
     }
 
-    @TODO
-    private fun showPopup(view: View){
+
+    private fun showPopup(view: View) {
         this.let {
             val popupMenu = PopupMenu(view.context, view)
 
-            popupMenu.menuInflater.inflate(R.layout.long_press_task, popupMenu.menu)
+            popupMenu.menuInflater.inflate(R.menu.long_press_on_task, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener {
 
+                return@setOnMenuItemClickListener true
+
+            }
+            popupMenu.show()
         }
-
     }
+
+
+
 
     override fun getItemCount(): Int {
         return tasks.size
     }
 
 }
+

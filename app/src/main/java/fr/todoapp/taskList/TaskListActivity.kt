@@ -9,6 +9,8 @@ import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
+import android.view.View
 import android.widget.EditText
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -49,22 +51,27 @@ class TaskListActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_task_list)
 
-        // call functions
+
+
+        // ****************** CALL FUNCTIONS ****************** \\
         // to load shared preferences for tasks
         loadDataSharedPreferences()
 
         // to create the recycler view
         createRecyclerView()
 
-        val getData = intent.extras?.get("getDataFromDatabase")
-        if (getData == 123){
 
-             getDataFromFirebase()
+        // ****************** COLLECT DATA FROM SETTINGS ACTIVITY ****************** \\
+
+        val getData = intent.extras?.get("getDataFromDatabase")
+        if (getData == 123) {
+
+            getDataFromFirebase()
             savedInstanceState
         }
 
 
-        // toolbar parameter
+        // ****************** TOOLBAR ****************** \\
         val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbarTaskActivity)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
@@ -91,7 +98,10 @@ class TaskListActivity : AppCompatActivity() {
             startActivity(Intent(applicationContext, TaskListActivity::class.java))
         }
 
+
     }
+
+
 
 
     override fun onDestroy() {
@@ -105,7 +115,6 @@ class TaskListActivity : AppCompatActivity() {
 
 
     // function to create a custom popup
-    @SuppressLint("ResourceType")
     private fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         val activity = TaskListActivity::class.java
@@ -115,7 +124,7 @@ class TaskListActivity : AppCompatActivity() {
             // initialize variables of popup instance
             val myPopupBuilder = AlertDialog.Builder(this@TaskListActivity)
             val inflater = this.layoutInflater
-            val view = inflater.inflate(R.xml.custom_popup, null, false)
+            val view = inflater.inflate(R.layout.custom_popup, null, false)
             val editText = view.findViewById<EditText>(R.id.editText_Popup)
 
             // set the custom layout
@@ -166,6 +175,11 @@ class TaskListActivity : AppCompatActivity() {
     }
 
 
+
+
+
+
+
     // fun to load the data of shared preferences saved by @saveDataSharedPreferences function
     private fun loadDataSharedPreferences() {
 
@@ -213,10 +227,9 @@ class TaskListActivity : AppCompatActivity() {
 
                     // check if the task already exist
                     val nameExist = task in myList
-                    if (nameExist){
+                    if (nameExist) {
                         break
-                    }
-                    else{
+                    } else {
                         // add the collected task to the list and recycler view
                         taskAdapter.addTodo(task)
                         println("task added $task")
@@ -227,7 +240,6 @@ class TaskListActivity : AppCompatActivity() {
                 Log.d("Fail to get", "Fail")
             }
     }
-
 
 
 }

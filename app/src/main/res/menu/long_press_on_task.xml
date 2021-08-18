@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="Marquer comme accomplie"
+    <item
+        android:id="@+id/accomplishedTask"
+        android:title="Marquer comme accomplie">
 
-    <item android:title="Supprimer" />
+    </item>
+
+    <item
+        android:id="@+id/deleteTask"
+        android:title="Supprimer">
+
+
+    </item>
 
 
 </menu>
