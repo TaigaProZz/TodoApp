@@ -1,22 +1,17 @@
 package fr.todoapp.recyclerViewAdapters
 
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.MenuItem
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
-import androidx.compose.material.AlertDialog
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import fr.todoapp.R
 import fr.todoapp.Task
-import fr.todoapp.databinding.TaskAdapterBinding
 import kotlinx.android.synthetic.main.task_adapter.view.*
 
-class TaskAdapter(val tasks: ArrayList<Task>) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
+class TaskAdapter(private val tasks: ArrayList<Task>) : RecyclerView.Adapter<TaskAdapter.ViewHolder>() {
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -25,14 +20,15 @@ class TaskAdapter(val tasks: ArrayList<Task>) : RecyclerView.Adapter<TaskAdapter
     // add the task to th list
     fun addTodo(task: Task) {
         tasks.add(task)
-        notifyItemInserted(tasks.size - 1)
+        notifyItemChanged(tasks.size - 1)
 
     }
 
-    fun removeItem(position: Int) {
-
+    private fun removeItem(position: Int) {
         tasks.removeAt(position)
-        notifyItemRemoved(tasks.size - 1)
+        notifyItemRangeRemoved(position , tasks.size + 1)
+
+
     }
 
 
@@ -60,6 +56,7 @@ class TaskAdapter(val tasks: ArrayList<Task>) : RecyclerView.Adapter<TaskAdapter
         //    println("la position : $position")
 
         //}
+
         viewHolder.itemView.apply {
             taskAdapterText.text = currentTask.taskName
             checkBoxAdapter.isChecked = currentTask.isChecked
@@ -68,29 +65,53 @@ class TaskAdapter(val tasks: ArrayList<Task>) : RecyclerView.Adapter<TaskAdapter
 
         viewHolder.itemView.setOnLongClickListener {
 
+            viewHolder.itemView.tag = position
+
+
             showPopup(it)
-            viewHolder.layoutPosition
+
             return@setOnLongClickListener true
         }
 
 
     }
 
-
     private fun showPopup(view: View) {
         this.let {
             val popupMenu = PopupMenu(view.context, view)
 
             popupMenu.menuInflater.inflate(R.menu.long_press_on_task, popupMenu.menu)
+
+            popupMenu.menu.add(Menu.NONE, 0, 0,"Marquer comme accomplie")
+            popupMenu.menu.add(Menu.NONE, 1, 1,"Delete")
+
             popupMenu.setOnMenuItemClickListener {
+
+
+                val id = it.itemId
+
+                if (id == 0){
+                    val getPositionTag = view.tag
+
+
+                    Toast.makeText(view.context, "$getPositionTag", Toast.LENGTH_LONG).show()
+
+                }
+                else if(id == 1){
+                    val getPositionTag = view.tag
+
+                    removeItem(getPositionTag as Int)
+
+                }
 
                 return@setOnMenuItemClickListener true
 
             }
+
             popupMenu.show()
         }
-    }
 
+    }
 
 
 

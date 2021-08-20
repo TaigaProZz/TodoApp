@@ -1,7 +1,6 @@
 package fr.todoapp.taskList
 
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
@@ -12,6 +11,7 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -102,8 +102,6 @@ class TaskListActivity : AppCompatActivity() {
     }
 
 
-
-
     override fun onDestroy() {
         super.onDestroy()
         val sharedPreferences: SharedPreferences = getSharedPreferences("data", MODE_PRIVATE)
@@ -114,7 +112,7 @@ class TaskListActivity : AppCompatActivity() {
     }
 
 
-    // function to create a custom popup
+    // function to create a custom popup for adding a task
     private fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         val activity = TaskListActivity::class.java
@@ -173,7 +171,6 @@ class TaskListActivity : AppCompatActivity() {
             myPopupBuilder.show()
         }
     }
-
 
 
 

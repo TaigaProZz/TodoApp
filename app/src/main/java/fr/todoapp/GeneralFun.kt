@@ -2,6 +2,8 @@ package fr.todoapp
 
 import android.content.SharedPreferences
 import android.util.Log
+import android.view.View
+import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -57,5 +59,7 @@ object GeneralFun : AppCompatActivity() {
             editor.apply()
         }
     }
+
+
 
 }
