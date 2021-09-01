@@ -10,6 +10,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import fr.todoapp.MainActivity
 import fr.todoapp.R
+import fr.todoapp.taskList.TaskListActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
 class LoginActivity : AppCompatActivity() {
@@ -55,7 +56,7 @@ class LoginActivity : AppCompatActivity() {
 
         val currentUser = auth.currentUser
         if (currentUser != null){
-            startActivity(Intent(applicationContext, MainActivity::class.java))
+            startActivity(Intent(applicationContext, TaskListActivity::class.java))
         }
     }
 

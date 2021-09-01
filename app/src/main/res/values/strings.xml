@@ -42,5 +42,6 @@
     <string name="delete">Delete</string>
     <string name="collect_from_firebase">Collect From firebase</string>
     <string name="title_activity_test_jp">TestJP</string>
+    <string name="title_activity_start">StartActivity</string>
 
 </resources>
